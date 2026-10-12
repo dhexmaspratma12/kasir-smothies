@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Plus, Minus, Trash2, ShoppingBag, ArrowRight, Banknote, CheckCircle, AlertCircle } from 'lucide-react';
+import { Search, Plus, Minus, Trash2, CupSoda, ArrowRight, Banknote, CheckCircle, AlertCircle } from 'lucide-react';
 import { PRODUCT_CATEGORIES } from '../data/initialData';
 
 export default function PosView({
@@ -74,12 +74,12 @@ export default function PosView({
       {/* Search & Category Filter Header */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         <div style={{ position: 'relative' }}>
-          <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#A39692' }} />
+          <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#A89AA3' }} />
           <input
             type="text"
             className="input-field"
             style={{ paddingLeft: '36px', borderRadius: '14px', fontSize: '0.82rem' }}
-            placeholder="Cari produk gerabah (cobek, kendi, vas...)..."
+            placeholder="Cari menu smoothies (mango, berry, avocado, dragon...)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -99,26 +99,24 @@ export default function PosView({
         </div>
       </div>
 
-      {/* Product Items Grid */}
+      {/* Product Grid View */}
       {filteredProducts.length === 0 ? (
         <div style={{
           textAlign: 'center',
           padding: '40px 20px',
           background: 'white',
           borderRadius: '16px',
-          border: '1px dashed #EAE1D7'
+          border: '1px dashed #FDDCD2'
         }}>
-          <ShoppingBag size={40} style={{ color: '#D96B43', opacity: 0.5, marginBottom: '10px' }} />
-          <p style={{ fontWeight: 700, color: '#2D2422', fontSize: '0.9rem' }}>Produk tidak ditemukan</p>
-          <p style={{ fontSize: '0.75rem', color: '#786C68', marginTop: '4px' }}>
-            Coba ubah kata kunci pencarian atau kategori
-          </p>
+          <CupSoda size={40} style={{ color: '#FF4365', opacity: 0.5, marginBottom: '10px' }} />
+          <p style={{ fontWeight: 700, color: '#1F1626', fontSize: '0.9rem' }}>Menu smoothies tidak ditemukan</p>
+          <p style={{ fontSize: '0.75rem', color: '#7A6973', marginTop: '4px' }}>Coba ubah kata kunci pencarian atau kategori</p>
         </div>
       ) : (
         <div className="product-grid">
           {filteredProducts.map(product => {
-            const inCartItem = cart.find(item => item.id === product.id);
-            const inCartQty = inCartItem ? inCartItem.qty : 0;
+            const inCart = cart.find(ci => ci.id === product.id);
+            const qty = inCart ? inCart.qty : 0;
 
             return (
               <div key={product.id} className="product-card">
@@ -126,6 +124,7 @@ export default function PosView({
                   <img src={product.image} alt={product.name} className="product-img" />
                   <span className="product-badge">{product.category}</span>
                 </div>
+
                 <div className="product-info">
                   <div>
                     <h3 className="product-name">{product.name}</h3>
@@ -134,19 +133,13 @@ export default function PosView({
 
                   <div className="product-action-row">
                     <span className="product-stock-text">Stok: {product.stock}</span>
-                    {inCartQty > 0 ? (
+                    {qty > 0 ? (
                       <div className="qty-control">
-                        <button
-                          className="qty-btn"
-                          onClick={() => updateCartQty(product.id, inCartQty - 1)}
-                        >
+                        <button className="qty-btn" onClick={() => updateCartQty(product.id, qty - 1)}>
                           <Minus size={12} />
                         </button>
-                        <span className="qty-val">{inCartQty}</span>
-                        <button
-                          className="qty-btn"
-                          onClick={() => addToCart(product)}
-                        >
+                        <span className="qty-val">{qty}</span>
+                        <button className="qty-btn" onClick={() => addToCart(product)}>
                           <Plus size={12} />
                         </button>
                       </div>
@@ -171,7 +164,7 @@ export default function PosView({
       {cart.length > 0 && (
         <div className="floating-cart-bar">
           <div>
-            <div style={{ fontSize: '0.68rem', color: '#E6A15C', fontWeight: '700' }}>
+            <div style={{ fontSize: '0.68rem', color: '#FFA585', fontWeight: '700' }}>
               {totalCartItems} Item dalam Keranjang
             </div>
             <div style={{ fontSize: '1rem', fontWeight: 800 }}>
@@ -196,7 +189,7 @@ export default function PosView({
             <div className="modal-header">
               <div>
                 <h3 className="modal-title">Keranjang Belanja</h3>
-                <p style={{ fontSize: '0.72rem', color: '#786C68' }}>Review items & bayar</p>
+                <p style={{ fontSize: '0.72rem', color: '#7A6973' }}>Review menu & bayar</p>
               </div>
               <button className="close-btn" onClick={() => setIsCartOpen(false)}>✕</button>
             </div>
@@ -221,7 +214,7 @@ export default function PosView({
                   </div>
                   <button
                     onClick={() => removeFromCart(item.id)}
-                    style={{ background: 'none', border: 'none', color: '#E74C3C', cursor: 'pointer', padding: '4px' }}
+                    style={{ background: 'none', border: 'none', color: '#EF4444', cursor: 'pointer', padding: '4px' }}
                   >
                     <Trash2 size={16} />
                   </button>
@@ -231,15 +224,15 @@ export default function PosView({
 
             {/* Total Summary */}
             <div style={{
-              backgroundColor: '#FAF6F0',
-              border: '1px solid #EAE1D7',
+              backgroundColor: '#FFF5F2',
+              border: '1px solid #FDDCD2',
               borderRadius: '14px',
               padding: '12px',
               marginBottom: '14px'
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem' }}>
-                <span style={{ color: '#786C68' }}>Total Belanja</span>
-                <span style={{ fontWeight: 800, fontSize: '1.05rem', color: '#D96B43' }}>
+                <span style={{ color: '#7A6973' }}>Total Belanja</span>
+                <span style={{ fontWeight: 800, fontSize: '1.05rem', color: '#FF4365' }}>
                   {formatRp(totalAmount)}
                 </span>
               </div>
@@ -248,11 +241,11 @@ export default function PosView({
             {/* Payment Calculator Form */}
             <form onSubmit={handleCheckoutSubmit}>
               <div style={{ marginBottom: '12px' }}>
-                <label style={{ fontSize: '0.75rem', fontWeight: 700, color: '#2D2422', display: 'block', marginBottom: '4px' }}>
+                <label style={{ fontSize: '0.75rem', fontWeight: 700, color: '#1F1626', display: 'block', marginBottom: '4px' }}>
                   Uang Dibayar (Rp)
                 </label>
                 <div style={{ position: 'relative', marginBottom: '8px' }}>
-                  <Banknote size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#D96B43' }} />
+                  <Banknote size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#FF4365' }} />
                   <input
                     type="number"
                     className="input-field"
@@ -303,9 +296,9 @@ export default function PosView({
 
               {/* Kembalian Feedback Card */}
               <div style={{
-                backgroundColor: numericPaid >= totalAmount ? '#EAFAF1' : '#FDEDEC',
-                border: `1px solid ${numericPaid >= totalAmount ? '#A9DFBF' : '#FADBD8'}`,
-                color: numericPaid >= totalAmount ? '#27AE60' : '#E74C3C',
+                backgroundColor: numericPaid >= totalAmount ? '#ECFDF5' : '#FEF2F2',
+                border: `1px solid ${numericPaid >= totalAmount ? '#A7F3D0' : '#FECACA'}`,
+                color: numericPaid >= totalAmount ? '#10B981' : '#EF4444',
                 padding: '10px 14px',
                 borderRadius: '14px',
                 display: 'flex',

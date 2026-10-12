@@ -12,21 +12,37 @@ import { INITIAL_PRODUCTS, INITIAL_TRANSACTIONS } from './data/initialData';
 export default function App() {
   // Authentication State
   const [adminUser, setAdminUser] = useState(() => {
-    const saved = localStorage.getItem('ayu_jaya_admin');
-    return saved ? JSON.parse(saved) : { username: 'Admin', role: 'Super Admin' }; // default logged in
+    const saved = localStorage.getItem('smothin_admin') || localStorage.getItem('ayu_jaya_admin');
+    return saved ? JSON.parse(saved) : null;
   });
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   // Products State
   const [products, setProducts] = useState(() => {
-    const saved = localStorage.getItem('ayu_jaya_products');
-    return saved ? JSON.parse(saved) : INITIAL_PRODUCTS;
+    const saved = localStorage.getItem('smothin_products');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      } catch (e) {
+        console.error('Error parsing products from storage', e);
+      }
+    }
+    return INITIAL_PRODUCTS;
   });
 
   // Transactions State
   const [transactions, setTransactions] = useState(() => {
-    const saved = localStorage.getItem('ayu_jaya_transactions');
-    return saved ? JSON.parse(saved) : INITIAL_TRANSACTIONS;
+    const saved = localStorage.getItem('smothin_transactions');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      } catch (e) {
+        console.error('Error parsing transactions from storage', e);
+      }
+    }
+    return INITIAL_TRANSACTIONS;
   });
 
   // Cart State
@@ -40,21 +56,22 @@ export default function App() {
 
   // Sync products & transactions to localStorage
   useEffect(() => {
-    localStorage.setItem('ayu_jaya_products', JSON.stringify(products));
+    localStorage.setItem('smothin_products', JSON.stringify(products));
   }, [products]);
 
   useEffect(() => {
-    localStorage.setItem('ayu_jaya_transactions', JSON.stringify(transactions));
+    localStorage.setItem('smothin_transactions', JSON.stringify(transactions));
   }, [transactions]);
 
   // Auth handlers
   const handleLoginSuccess = (user) => {
     setAdminUser(user);
-    localStorage.setItem('ayu_jaya_admin', JSON.stringify(user));
+    localStorage.setItem('smothin_admin', JSON.stringify(user));
     setIsLoginModalOpen(false);
   };
 
   const handleLogout = () => {
+    localStorage.removeItem('smothin_admin');
     localStorage.removeItem('ayu_jaya_admin');
     setAdminUser(null);
     setIsLoginModalOpen(true);
@@ -93,10 +110,10 @@ export default function App() {
 
   // Checkout handler
   const handleCompleteCheckout = ({ items, totalAmount, paidAmount, changeAmount, paymentMethod }) => {
-    // Generate sequential invoice number
+    // Generate sequential invoice number (SMT = Smoth.in)
     const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
     const seq = String(transactions.length + 1).padStart(3, '0');
-    const invoiceNo = `AJG-${dateStr}-${seq}`;
+    const invoiceNo = `SMT-${dateStr}-${seq}`;
 
     const newTransaction = {
       id: 'TRX-' + Date.now(),
@@ -154,6 +171,17 @@ export default function App() {
     setProducts(prev => prev.filter(p => p.id !== id));
   };
 
+  if (!adminUser) {
+    return (
+      <div className="app-viewport">
+        <LoginModal
+          isOpen={true}
+          onLoginSuccess={handleLoginSuccess}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="app-viewport">
       <Navbar
@@ -198,7 +226,7 @@ export default function App() {
       />
 
       <LoginModal
-        isOpen={isLoginModalOpen || !adminUser}
+        isOpen={isLoginModalOpen}
         onLoginSuccess={handleLoginSuccess}
       />
 

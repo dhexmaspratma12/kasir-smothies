@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShoppingBag, LogOut, UserCheck } from 'lucide-react';
+import { CupSoda, LogOut, UserCheck } from 'lucide-react';
 
 export default function Navbar({ adminUser, onLogout }) {
   return (
@@ -7,11 +7,11 @@ export default function Navbar({ adminUser, onLogout }) {
       <div className="header-inner">
         <div className="brand-badge">
           <div className="brand-icon">
-            <ShoppingBag size={20} />
+            <CupSoda size={20} />
           </div>
           <div>
-            <div className="brand-title">Ayu Jaya</div>
-            <div className="brand-subtitle">Gerabah POS</div>
+            <div className="brand-title">Smoth.in</div>
+            <div className="brand-subtitle">Smoothies & Bowls</div>
           </div>
         </div>
 
@@ -22,8 +22,9 @@ export default function Navbar({ adminUser, onLogout }) {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '4px',
-                backgroundColor: '#EFF6FF',
-                color: '#2563EB',
+                backgroundColor: '#FFF0F3',
+                color: '#FF4365',
+                border: '1px solid #FDDCD2',
                 padding: '4px 10px',
                 borderRadius: '99px',
                 fontSize: '0.75rem',

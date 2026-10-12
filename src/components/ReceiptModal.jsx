@@ -67,18 +67,22 @@ export default function ReceiptModal({ transaction, onClose }) {
       .map(item => `- ${item.name} (${item.qty}x @${formatRp(item.price)}) = ${formatRp(item.total || item.price * item.qty)}`)
       .join('\n');
 
-    const message = `*AYU JAYA GERABAH*\n` +
+    const message = `*SMOTH.IN - FRESH SMOOTHIES*\n` +
+      `Fresh Healthy Smoothies & Fruit Bowls Bar\n` +
+      `Pengabean, Kademangaran, Kec. Dukuhturi, Kab. Tegal\n` +
+      `Telp/WA: 0852-2593-4845\n` +
+      `--------------------------------\n` +
       `*Struk Pembelian / Nota*\n` +
       `--------------------------------\n` +
       `No Nota: ${transaction.invoiceNo}\n` +
       `Tanggal: ${formatDate(transaction.timestamp)}\n` +
       `Kasir: ${transaction.cashierName || 'Admin'}\n\n` +
-      `*Daftar Belanja:*\n${itemLines}\n\n` +
+      `*Daftar Pesanan:*\n${itemLines}\n\n` +
       `*TOTAL:* ${formatRp(transaction.totalAmount)}\n` +
       `*Dibayar:* ${formatRp(transaction.paidAmount)}\n` +
       `*Kembalian:* ${formatRp(transaction.changeAmount)}\n` +
       `--------------------------------\n` +
-      `Terima kasih telah berbelanja kerajinan gerabah di Ayu Jaya Gerabah!`;
+      `Terima kasih telah menikmati kesegaran buah asli di Smoth.in!\nFollow IG: @smoth.in`;
 
     const cleanPhone = whatsappNumber.replace(/[^0-9]/g, '');
     const formattedPhone = cleanPhone.startsWith('0') ? '62' + cleanPhone.slice(1) : cleanPhone;
@@ -92,10 +96,10 @@ export default function ReceiptModal({ transaction, onClose }) {
       <div className="modal-content" style={{ borderRadius: '24px', maxWidth: '420px' }} onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <CheckCircle2 size={22} style={{ color: '#27AE60' }} />
+            <CheckCircle2 size={22} style={{ color: '#10B981' }} />
             <div>
               <h3 className="modal-title">Transaksi Berhasil</h3>
-              <p style={{ fontSize: '0.75rem', color: '#786C68' }}>{transaction.invoiceNo}</p>
+              <p style={{ fontSize: '0.75rem', color: '#7A6973' }}>{transaction.invoiceNo}</p>
             </div>
           </div>
           <button className="close-btn" onClick={onClose}>✕</button>
@@ -105,10 +109,12 @@ export default function ReceiptModal({ transaction, onClose }) {
         <div style={{ padding: '10px 0', display: 'flex', justifyContent: 'center' }}>
           <div ref={receiptRef} className="thermal-receipt printable-receipt">
             <div className="receipt-header">
-              <div className="receipt-store">AYU JAYA GERABAH</div>
+              <div className="receipt-store">SMOTH.IN</div>
               <div className="receipt-address">
-                Pusat Kerajinan Gerabah & Terracotta<br />
-                Jl. Raya Gerabah No. 88 | Telp: 0812-3456-7890
+                Fresh Smoothies & Healthy Bowls Bar<br />
+                100% Buah Segar Alami & Tanpa Pengawet<br />
+                Pengabean, Kec. Dukuhturi, Kab. Tegal<br />
+                Telp: 0852-2593-4845
               </div>
             </div>
 
@@ -150,8 +156,8 @@ export default function ReceiptModal({ transaction, onClose }) {
 
             <div className="receipt-footer">
               *** TERIMA KASIH ***<br />
-              Barang yang sudah dibeli<br />
-              dapat ditukar jika ada cacat produksi.
+              Nikmati kesegaran buah asli setiap hari!<br />
+              Follow IG: @smoth.in
             </div>
           </div>
         </div>
@@ -179,7 +185,7 @@ export default function ReceiptModal({ transaction, onClose }) {
           <button
             type="button"
             className="btn btn-outline"
-            style={{ fontSize: '0.85rem', color: '#27AE60', borderColor: '#A9DFBF' }}
+            style={{ fontSize: '0.85rem', color: '#10B981', borderColor: '#A7F3D0' }}
             onClick={() => setShowWhatsappInput(!showWhatsappInput)}
           >
             <Share2 size={16} /> Kirim Struk via WhatsApp
@@ -188,14 +194,14 @@ export default function ReceiptModal({ transaction, onClose }) {
           {/* WhatsApp Phone Form Drawer */}
           {showWhatsappInput && (
             <form onSubmit={handleSendWhatsapp} style={{
-              backgroundColor: '#EAFAF1',
+              backgroundColor: '#ECFDF5',
               padding: '12px',
               borderRadius: '14px',
               display: 'flex',
               gap: '8px',
               alignItems: 'center'
             }}>
-              <Phone size={18} style={{ color: '#27AE60' }} />
+              <Phone size={18} style={{ color: '#10B981' }} />
               <input
                 type="tel"
                 className="input-field"

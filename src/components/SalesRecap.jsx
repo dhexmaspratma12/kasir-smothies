@@ -87,7 +87,7 @@ export default function SalesRecap({ transactions, onViewReceipt }) {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', `Rekap_Penjualan_${period}_${Date.now()}.csv`);
+    link.setAttribute('download', `Rekap_Penjualan_Smothin_${period}_${Date.now()}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -102,12 +102,12 @@ export default function SalesRecap({ transactions, onViewReceipt }) {
             <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.25rem', fontWeight: 800 }}>
               Rekap Penjualan
             </h2>
-            <p style={{ fontSize: '0.75rem', color: '#786C68' }}>Laporan omset & statistik transaksi</p>
+            <p style={{ fontSize: '0.75rem', color: '#7A6973' }}>Laporan omset & statistik transaksi Smoth.in</p>
           </div>
           <button
             onClick={handleExportCsv}
             className="btn btn-outline btn-sm"
-            style={{ fontSize: '0.75rem', color: '#27AE60', borderColor: '#A9DFBF' }}
+            style={{ fontSize: '0.75rem', color: '#10B981', borderColor: '#A7F3D0' }}
           >
             <FileSpreadsheet size={15} /> Export CSV
           </button>
@@ -118,10 +118,10 @@ export default function SalesRecap({ transactions, onViewReceipt }) {
           display: 'grid',
           gridTemplateColumns: '1fr 1fr 1fr',
           gap: '6px',
-          backgroundColor: '#FAF6F0',
+          backgroundColor: '#FFF5F2',
           padding: '4px',
           borderRadius: '16px',
-          border: '1px solid #EAE1D7'
+          border: '1px solid #FDDCD2'
         }}>
           <button
             className={`btn btn-sm ${period === 'today' ? 'btn-primary' : 'btn-outline'}`}
@@ -149,17 +149,17 @@ export default function SalesRecap({ transactions, onViewReceipt }) {
 
       {/* KPI Cards */}
       <div className="kpi-grid">
-        <div className="kpi-card" style={{ borderLeft: '4px solid #D96B43' }}>
+        <div className="kpi-card" style={{ borderLeft: '4px solid #FF4365' }}>
           <span className="kpi-label">Total Omset</span>
           <span className="kpi-value" style={{ fontSize: '0.95rem' }}>{formatRp(stats.totalRevenue)}</span>
         </div>
-        <div className="kpi-card" style={{ borderLeft: '4px solid #E6A15C' }}>
+        <div className="kpi-card" style={{ borderLeft: '4px solid #FF8800' }}>
           <span className="kpi-label">Transaksi</span>
-          <span className="kpi-value">{stats.totalOrders} <span style={{ fontSize: '0.7rem', color: '#786C68', fontWeight: 600 }}>nota</span></span>
+          <span className="kpi-value">{stats.totalOrders} <span style={{ fontSize: '0.7rem', color: '#7A6973', fontWeight: 600 }}>nota</span></span>
         </div>
-        <div className="kpi-card" style={{ borderLeft: '4px solid #27AE60' }}>
-          <span className="kpi-label">Item Terjual</span>
-          <span className="kpi-value">{stats.totalItemsSold} <span style={{ fontSize: '0.7rem', color: '#786C68', fontWeight: 600 }}>pcs</span></span>
+        <div className="kpi-card" style={{ borderLeft: '4px solid #10B981' }}>
+          <span className="kpi-label">Cup Terjual</span>
+          <span className="kpi-value">{stats.totalItemsSold} <span style={{ fontSize: '0.7rem', color: '#7A6973', fontWeight: 600 }}>cup</span></span>
         </div>
       </div>
 
@@ -167,9 +167,9 @@ export default function SalesRecap({ transactions, onViewReceipt }) {
       {topProducts.length > 0 && (
         <div className="card" style={{ padding: '14px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '12px' }}>
-            <TrendingUp size={16} style={{ color: '#D96B43' }} />
-            <h4 style={{ fontSize: '0.88rem', fontWeight: 800, color: '#2D2422' }}>
-              Produk Terlaris ({period === 'today' ? 'Hari Ini' : period === 'month' ? 'Bulan Ini' : 'Tahun Ini'})
+            <TrendingUp size={16} style={{ color: '#FF4365' }} />
+            <h4 style={{ fontSize: '0.88rem', fontWeight: 800, color: '#1F1626' }}>
+              Smoothies Terlaris ({period === 'today' ? 'Hari Ini' : period === 'month' ? 'Bulan Ini' : 'Tahun Ini'})
             </h4>
           </div>
 
@@ -181,8 +181,8 @@ export default function SalesRecap({ transactions, onViewReceipt }) {
                     width: '20px',
                     height: '20px',
                     borderRadius: '50%',
-                    backgroundColor: idx === 0 ? '#D96B43' : '#F4ECE1',
-                    color: idx === 0 ? 'white' : '#2D2422',
+                    backgroundColor: idx === 0 ? '#FF4365' : '#FFF5F2',
+                    color: idx === 0 ? 'white' : '#1F1626',
                     fontSize: '0.7rem',
                     fontWeight: '800',
                     display: 'flex',
@@ -194,8 +194,8 @@ export default function SalesRecap({ transactions, onViewReceipt }) {
                   <span style={{ fontWeight: 700 }}>{p.name}</span>
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <span style={{ fontWeight: 800, color: '#D96B43' }}>{p.qty} pcs</span>
-                  <span style={{ fontSize: '0.7rem', color: '#786C68', display: 'block' }}>{formatRp(p.revenue)}</span>
+                  <span style={{ fontWeight: 800, color: '#FF4365' }}>{p.qty} cup</span>
+                  <span style={{ fontSize: '0.7rem', color: '#7A6973', display: 'block' }}>{formatRp(p.revenue)}</span>
                 </div>
               </div>
             ))}
@@ -206,13 +206,13 @@ export default function SalesRecap({ transactions, onViewReceipt }) {
       {/* Search & Transaction History List */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h3 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#2D2422' }}>
+          <h3 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#1F1626' }}>
             Riwayat Transaksi ({filteredTransactions.length})
           </h3>
         </div>
 
         <div style={{ position: 'relative' }}>
-          <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#A39692' }} />
+          <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#A89AA3' }} />
           <input
             type="text"
             className="input-field"
@@ -229,9 +229,9 @@ export default function SalesRecap({ transactions, onViewReceipt }) {
             padding: '30px',
             backgroundColor: 'white',
             borderRadius: '16px',
-            border: '1px dashed #EAE1D7'
+            border: '1px dashed #FDDCD2'
           }}>
-            <p style={{ color: '#786C68', fontSize: '0.85rem' }}>
+            <p style={{ color: '#7A6973', fontSize: '0.85rem' }}>
               Belum ada transaksi di periode ini.
             </p>
           </div>
@@ -240,20 +240,20 @@ export default function SalesRecap({ transactions, onViewReceipt }) {
             <div key={t.id} className="card" style={{ padding: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span style={{ fontWeight: 800, fontSize: '0.85rem', color: '#2D2422' }}>{t.invoiceNo}</span>
+                  <span style={{ fontWeight: 800, fontSize: '0.85rem', color: '#1F1626' }}>{t.invoiceNo}</span>
                   <span className="badge badge-success">Lunas</span>
                 </div>
-                <div style={{ fontSize: '0.72rem', color: '#786C68', marginTop: '2px' }}>
+                <div style={{ fontSize: '0.72rem', color: '#7A6973', marginTop: '2px' }}>
                   {formatDate(t.timestamp)} • {t.items ? t.items.length : 0} Jenis Item
                 </div>
               </div>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontWeight: 800, fontSize: '0.9rem', color: '#D96B43' }}>
+                  <div style={{ fontWeight: 800, fontSize: '0.9rem', color: '#FF4365' }}>
                     {formatRp(t.totalAmount)}
                   </div>
-                  <div style={{ fontSize: '0.7rem', color: '#786C68' }}>
+                  <div style={{ fontSize: '0.7rem', color: '#7A6973' }}>
                     Tunai ({formatRp(t.paidAmount)})
                   </div>
                 </div>
